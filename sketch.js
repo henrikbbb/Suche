@@ -5,6 +5,7 @@ let slider
 let sliderText
 let checkboxSort, checkboxPickSelectedName
 let button
+let personFound = false
 
 function setup() {
 	noCanvas()
@@ -20,14 +21,20 @@ function setup() {
 		sliderText.html(slider.value())
 		setupGame()
 	})
+	slider.hide()
+	
 	sliderText = createSpan(15)
+	sliderText.hide()
 
 	createElement('br')
 
-	button = createButton('reset')
+	button = createButton('suche erneut')
 	button.mousePressed(() => {
 		setupGame()
 	})
+
+	createElement('br')
+	createElement('br')
 
 	let details = createElement('details')
 	let summary = createElement('summary', 'Einstellungen')
@@ -39,11 +46,12 @@ function setup() {
 	})
 	checkboxSort.parent(details)
 
-	checkboxPickSelectedName = createCheckbox('gesuchter Name ist in Liste enthalten', false)
+	checkboxPickSelectedName = createCheckbox('gesuchter Name ist in Liste enthalten', true)
 	checkboxPickSelectedName.input(() => {
 		setupGame()
 	})
 	checkboxPickSelectedName.parent(details)
+	checkboxPickSelectedName.hide()
 
 	setupGame()
 }
@@ -51,12 +59,15 @@ function setup() {
 function setupGame() {
 	divImages.innerHTML = ''
 
+	personFound = false
+
 	let selectedNames = selectNames()
 	if (checkboxSort.checked()) {
 		selectedNames = selectedNames.sort((a, b) => a > b)
 	}
 
 	let nameSelected = selectName(selectedNames)
+
 
 	counter = 0
 		
@@ -67,11 +78,27 @@ function setupGame() {
 		let img = createImg('images/unbekannt.png')
 		img.parent(divImage)
 		
+		
+
 		img.mousePressed(() => {
+			if (personFound) {
+				return
+			}
+
+			if (img.elt.src.substr(29) != "unbekannt.png") {
+				return
+			}
+			
 			img.attribute('src', 'images/' + name + '.png')
 			counter++
 			textCounter.html(counter + ' Versuche')
+
+			if (name == nameSelected) {
+				personFound = true
+			}
 		})
+
+		
 	}
 
 	textName.html('Suche ' + nameSelected + '!')
