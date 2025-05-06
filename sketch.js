@@ -81,6 +81,8 @@ function setupGame() {
 		
 
 		img.mousePressed(() => {
+			console.log(1);
+			
 			if (personFound) {
 				return
 			}
