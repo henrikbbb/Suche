@@ -81,14 +81,11 @@ function setupGame() {
 		
 
 		img.mousePressed(() => {
-			console.log(1);
-			console.log(img.elt.src);
-			
 			if (personFound) {
 				return
 			}
 
-			if (img.elt.src.substr(29) != "unbekannt.png") {
+			if (img.elt.src.substr(img.elt.src.length - "unbekannt.png".length) != "unbekannt.png") {
 				return
 			}
 			
